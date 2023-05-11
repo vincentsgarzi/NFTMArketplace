@@ -4,7 +4,7 @@ from web3 import Web3
 from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
-from PIL import Image  
+from PIL import Image
 
 from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
 
@@ -17,7 +17,7 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 def load_contract():
 
     # Load the contract ABI
-    with open(Path('./contracts/compiled/artregistry_abi.json')) as f:
+    with open(Path('./Kunal/contracts/compiled/artregistry_abi.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
@@ -85,14 +85,14 @@ if st.button("Register Artwork"):
         int(initial_appraisal_value),
         artwork_uri
     ).transact({'from': address, 'gas': 1000000})
-    
+
     receipt=w3.eth.waitForTransactionReceipt(tx_hash)
     st.write("Transaction receipt")
     st.write(dict(receipt))
 
     st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
     st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
-    
+
     location1=artwork_ipfs_hash[0]["image"]
     location2=f"ipfs://{location1}"
 
