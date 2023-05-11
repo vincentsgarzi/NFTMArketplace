@@ -7,7 +7,7 @@ import warnings
 import numpy as np
 warnings.filterwarnings("ignore")
 
-def load_and_preprocess_image(file_path):
+def load_and_preprocess_single_image(file_path):
     # Load the image
     img = Image.open(file_path)
     # Convert the image to RGB
@@ -26,6 +26,6 @@ model = load_model('my_model.h5')
 model.summary()
 
 for image in os.listdir("valuationEstimator/test_images"):
-  data = load_and_preprocess_image(f"valuationEstimator/test_images/{image}")
+  data = load_and_preprocess_single_image(f"valuationEstimator/test_images/{image}")
   prediction = model.predict(data)
   print(f"{image} received a score of: {prediction}")
