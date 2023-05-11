@@ -19,13 +19,13 @@ def load_and_preprocess_single_image(file_path):
     img = np.expand_dims(img, axis=0)
     return img
 
-# Recreate the exact same model, including its weights and the optimizer
-model = load_model('my_model.h5')
+# # Recreate the exact same model, including its weights and the optimizer
+# model = load_model('Vinny/my_model.h5')
 
-# Show the model architecture
-model.summary()
+# # Show the model architecture
+# model.summary()
 
-for image in os.listdir("valuationEstimator/test_images"):
-  data = load_and_preprocess_single_image(f"valuationEstimator/test_images/{image}")
-  prediction = model.predict(data)
-  print(f"{image} received a score of: {prediction}")
+# for image in os.listdir("valuationEstimator/test_images"):
+#   data = load_and_preprocess_single_image(f"valuationEstimator/test_images/{image}")
+#   prediction = model.predict(data)
+#   print(f"{image} received a score of: {prediction}")
