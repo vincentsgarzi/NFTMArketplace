@@ -51,8 +51,7 @@ def pin_artwork(artwork_name, artwork_file):
     # Pin the json to IPFS with Pinata
     json_ipfs_hash = pin_json_to_ipfs(json_data)
 
-    return token_json, json_ipfs_hash
-    # return json_data
+    return json_ipfs_hash
 
 
 def pin_appraisal_report(report_content):
@@ -111,13 +110,10 @@ if st.button("Register Artwork"):
     st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
     st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
 
-    location1=artwork_ipfs_hash[0]["image"]
-    location2=f"ipfs://{location1}"
-
 st.markdown("---")
 
 st.markdown("## Display an Art Token")
-
+st.write(address)
 tokens = contract.functions.balanceOf(address).call()
 st.write(f"This address owns {tokens} tokens")
 token_id = st.selectbox("Artwork Tokens", list(range(tokens)))
