@@ -88,9 +88,9 @@ if file is not None:
     model = load_model('Vinny/my_model.h5')
     prediction = model.predict(data)
     prediction = prediction.item(0)*10
-    st.write("The estimated value of your NFT is: %.2f Ethereum" % prediction)
+    st.write("The estimated value of your NFT is: %.2f Ether" % prediction)
     st.write("You may list your NFT for sale at +/- ten percent of the estimate")
-    initial_appraisal_value = st.slider(label="Listing Price, in Ethereum", min_value=(prediction*.9), max_value=(prediction*1.1))
+    initial_appraisal_value = st.slider(label="Listing Price, in Ether", min_value=(prediction*.9), max_value=(prediction*1.1))
 
 if st.button("Register Artwork"):
     artwork_ipfs_hash =  pin_artwork(artwork_name,file)
