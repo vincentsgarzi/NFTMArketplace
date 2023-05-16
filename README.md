@@ -42,7 +42,7 @@ The team created an NFT Marketplace which allows the user to purchase NFTs, as w
 
 `Pinata`: The application uses Pinata to upload new art images. For operating the app, Pinata API and Secret Key need to be obtained from https://www.pinata.cloud/ and then added to .env
 
-Below is an example of what your ```.env``` file should look like:
+Below is an example of what your `.env` file should look like. Make sure to fill in each variable with its corresponding value:
 
 ![envFile](./readme_images/image_720.png)
 
@@ -52,9 +52,6 @@ Below is an example of what your ```.env``` file should look like:
 - Obtain the deployed contract address  and save it in .env (as SMART_CONTRACT_ADDRESS)
 - .env should also contain -  WEB3_PROVIDER_URI (from Ganache, i think the standard value for temp workspace is HTTP://127.0.0.1:7545), PINATA_API_KEY & PINATA_SECRET_API_KEY
 
-- streamlit run app.py
-
-
 ```python
 pip install streamlit
 pip install PIL
@@ -63,6 +60,8 @@ pip install keras
 pip install numpy
 pip install web3
 ```
+
+- streamlit run app.py
 
 ## Usage
 
