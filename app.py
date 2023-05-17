@@ -216,13 +216,6 @@ preset_nfts = [
         'image_path': 'NFT_Images/download-14.png',
         'price': values[13],
         'token_id': 14
-    },
-    {
-        'name': 'Acorn Head',
-        'artist': 'DoVhichi',
-        'image_path': 'NFT_Images/download-15.png',
-        'price': values[14],
-        'token_id': 15
     }]
 
 
