@@ -125,98 +125,98 @@ preset_nfts = [
         'name': 'Good Boy',
         'artist': 'Woofles',
         'image_path': 'NFT_Images/download-1.jpg',
-        'price': f'{values[0]:.6f}',
+        'price': values[0],
         'token_id': 1
     },
     {
         'name': 'Heart Cat',
         'artist': 'Milton',
         'image_path': 'NFT_Images/download-2.png',
-        'price': f'{values[1]:.6f}',
+        'price': values[1],
         'token_id': 2
     },
     {
         'name': 'Pixel Pizza',
         'artist': 'Chef Roonie',
         'image_path': 'NFT_Images/download-3.png',
-        'price': f'{values[2]:.6f}',
+        'price': values[2],
         'token_id': 3
     },
     {
         'name': 'Golden',
         'artist': 'Dog Owner',
         'image_path': 'NFT_Images/download-4.jpg',
-        'price': f'{values[3]:.6f}',
+        'price': values[3],
         'token_id': 4
     },
     {
         'name': 'Ninja Turtle',
         'artist': 'MichaelAngelo',
         'image_path': 'NFT_Images/download-5.png',
-        'price': f'{values[4]:.6f}',
+        'price': values[4],
         'token_id': 5
     },
     {
         'name': 'Puppy Smile',
         'artist': 'Masashi Kishimoto',
         'image_path': 'NFT_Images/download-6.jpg',
-        'price': f'{values[5]:.6f}',
+        'price': values[5],
         'token_id': 6
     },
     {
         'name': 'Halo Wolf',
         'artist': 'Jason Jones',
         'image_path': 'NFT_Images/download-7.png',
-        'price': f'{values[6]:.6f}',
+        'price': values[6],
         'token_id': 7
     },
     {
         'name': 'Stick Dog',
         'artist': 'iDog',
         'image_path': 'NFT_Images/download-8.jpg',
-        'price': f'{values[7]:.6f}',
+        'price': values[7],
         'token_id': 8
     },
     {
         'name': 'Small Car',
         'artist': 'Eric Cadena',
         'image_path': 'NFT_Images/download-9.png',
-        'price': f'{values[8]:.6f}',
+        'price': values[8],
         'token_id': 9
     },
     {
         'name': 'TV Head',
         'artist': 'Philo Farnsworth',
         'image_path': 'NFT_Images/download-10.png',
-        'price': f'{values[9]:.6f}',
+        'price': values[9],
         'token_id': 10
     },
     {
         'name': 'Patty Man',
         'artist': 'The Burger King',
         'image_path': 'NFT_Images/download-11.png',
-        'price': f'{values[10]:.6f}',
+        'price': values[10],
         'token_id': 11
     },
     {
         'name': 'Rainbow Box',
         'artist': 'Clifrton',
         'image_path': 'NFT_Images/download-12.png',
-        'price': f'{values[11]:.6f}',
+        'price': values[11],
         'token_id': 12
     },
     {
         'name': 'Slob Monster',
         'artist': 'Joe Joe',
         'image_path': 'NFT_Images/download-13.png',
-        'price': f'{values[12]:.6f}',
+        'price': values[12],
         'token_id': 13
     },
     {
         'name': 'Happy Car',
         'artist': 'Henry Ford',
         'image_path': 'NFT_Images/download-14.png',
-        'price': f'{values[14]:.6f}',
+        'price': values[14],
         'token_id': 14
     }]
 
@@ -338,7 +338,7 @@ with tab1:
                 image = Image.open(nft["image_path"])
                 st.image(image, caption=nft["name"], use_column_width=True)
                 st.write(f"Artist: {nft['artist']}")
-                st.write(f"Price: {nft['price']} ETH")
+                st.write(f"Price: {nft['price']:.6f} ETH")
 
                 if "token_id" in preset_nfts[index]:
                     nft_id = preset_nfts[index]['token_id']
