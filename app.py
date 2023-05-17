@@ -176,16 +176,16 @@ preset_nfts = [
         'token_id': 8
     },
     {
-        'name': 'TV Head',
-        'artist': 'Philo Farnsworth',
-        'image_path': 'NFT_Images/download-10.png',
+        'name': 'Small Car',
+        'artist': 'Eric Cadena',
+        'image_path': 'NFT_Images/download-9.png',
         'price': values[8],
         'token_id': 9
     },
     {
-        'name': 'Rainbow Box',
-        'artist': 'Clifrton',
-        'image_path': 'NFT_Images/download-12.png',
+        'name': 'TV Head',
+        'artist': 'Philo Farnsworth',
+        'image_path': 'NFT_Images/download-10.png',
         'price': values[9],
         'token_id': 10
     },
@@ -197,25 +197,32 @@ preset_nfts = [
         'token_id': 11
     },
     {
+        'name': 'Rainbow Box',
+        'artist': 'Clifrton',
+        'image_path': 'NFT_Images/download-12.png',
+        'price': values[11],
+        'token_id': 12
+    },
+    {
         'name': 'Slob Monster',
         'artist': 'Joe Joe',
         'image_path': 'NFT_Images/download-13.png',
-        'price': values[11],
-        'token_id': 12
+        'price': values[12],
+        'token_id': 13
     },
     {
         'name': 'Happy Car',
         'artist': 'Henry Ford',
         'image_path': 'NFT_Images/download-14.png',
-        'price': values[12],
-        'token_id': 13
+        'price': values[13],
+        'token_id': 14
     },
     {
         'name': 'Acorn Head',
         'artist': 'DoVhichi',
         'image_path': 'NFT_Images/download-15.png',
-        'price': values[13],
-        'token_id': 14
+        'price': values[14],
+        'token_id': 15
     }]
 
 
