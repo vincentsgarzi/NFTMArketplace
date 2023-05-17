@@ -114,7 +114,7 @@ values = []
 for image in os.listdir("NFT_images"):
   data = load_and_preprocess_single_image(f"NFT_images/{image}")
   prediction = model.predict(data)
-  values.append(prediction)
+  values.append(prediction[0][0])
 
 
 # Define preset NFTs
@@ -216,6 +216,13 @@ preset_nfts = [
         'image_path': 'NFT_Images/download-14.png',
         'price': values[13],
         'token_id': 14
+    },
+    {
+        'name': 'Acorn Head',
+        'artist': 'DoVhichi',
+        'image_path': 'NFT_Images/download-15.png',
+        'price': values[14],
+        'token_id': 15
     }]
 
 
