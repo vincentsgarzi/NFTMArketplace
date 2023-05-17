@@ -123,106 +123,99 @@ preset_nfts = [
         'name': 'Good Boy',
         'artist': 'Woofles',
         'image_path': 'NFT_Images/download-1.jpg',
-        'price': values[0],
+        'price': round(values[0], 5),
         'token_id': 1
     },
     {
         'name': 'Heart Cat',
         'artist': 'Milton',
         'image_path': 'NFT_Images/download-2.png',
-        'price': values[1],
+        'price': round(values[1], 5),
         'token_id': 2
     },
     {
         'name': 'Pixel Pizza',
         'artist': 'Chef Roonie',
         'image_path': 'NFT_Images/download-3.png',
-        'price': values[2],
+        'price': round(values[2], 5),
         'token_id': 3
     },
     {
         'name': 'Golden',
         'artist': 'Dog Owner',
         'image_path': 'NFT_Images/download-4.jpg',
-        'price': values[3],
+        'price': round(values[3], 5),
         'token_id': 4
     },
     {
         'name': 'Ninja Turtle',
         'artist': 'MichaelAngelo',
         'image_path': 'NFT_Images/download-5.png',
-        'price': values[4],
+        'price': round(values[4], 5),
         'token_id': 5
     },
     {
         'name': 'Puppy Smile',
         'artist': 'Masashi Kishimoto',
         'image_path': 'NFT_Images/download-6.jpg',
-        'price': values[5],
+        'price': round(values[5], 5),
         'token_id': 6
     },
     {
         'name': 'Halo Wolf',
         'artist': 'Jason Jones',
         'image_path': 'NFT_Images/download-7.png',
-        'price': values[6],
+        'price': round(values[6], 5),
         'token_id': 7
     },
     {
         'name': 'Stick Dog',
         'artist': 'iDog',
         'image_path': 'NFT_Images/download-8.jpg',
-        'price': values[7],
+        'price': round(values[7], 5),
         'token_id': 8
     },
     {
         'name': 'Small Car',
         'artist': 'Eric Cadena',
         'image_path': 'NFT_Images/download-9.png',
-        'price': values[8],
+        'price': round(values[8], 5),
         'token_id': 9
     },
     {
         'name': 'TV Head',
         'artist': 'Philo Farnsworth',
         'image_path': 'NFT_Images/download-10.png',
-        'price': values[9],
+        'price': round(values[9], 5),
         'token_id': 10
     },
     {
         'name': 'Patty Man',
         'artist': 'The Burger King',
         'image_path': 'NFT_Images/download-11.png',
-        'price': values[10],
+        'price': round(values[10], 5),
         'token_id': 11
     },
     {
         'name': 'Rainbow Box',
         'artist': 'Clifrton',
         'image_path': 'NFT_Images/download-12.png',
-        'price': values[11],
+        'price': round(values[11], 5),
         'token_id': 12
     },
     {
         'name': 'Slob Monster',
         'artist': 'Joe Joe',
         'image_path': 'NFT_Images/download-13.png',
-        'price': values[12],
+        'price': round(values[12], 5),
         'token_id': 13
     },
     {
         'name': 'Happy Car',
         'artist': 'Henry Ford',
         'image_path': 'NFT_Images/download-14.png',
-        'price': values[13],
+        'price': round(values[13], 5),
         'token_id': 14
-    },
-    {
-        'name': 'Acorn Head',
-        'artist': 'DoVhichi',
-        'image_path': 'NFT_Images/download-15.png',
-        'price': values[14],
-        'token_id': 15
     }]
 
 
@@ -292,7 +285,7 @@ with tab2:
             'name': artwork_name,
             'artist': artist_name,
             'image_path': file,
-            'price': initial_appraisal_value,
+            'price': round(initial_appraisal_value, 5),
             'token_id': token_id
         })
 
