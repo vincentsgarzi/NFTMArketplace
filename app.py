@@ -116,7 +116,7 @@ values = []
 for image in os.listdir("NFT_images"):
   data = load_and_preprocess_single_image(f"NFT_images/{image}")
   prediction = model.predict(data)
-  values.append(round(prediction[0][0], 5))
+  values.append(round(prediction[0][0]*10, 5))
 
 
 # Define preset NFTs
