@@ -111,8 +111,8 @@ def buy_nfts(cart, user_address):
 model = load_model('Vinny/my_model.h5')
 values = []
 
-for image in os.listdir("valuationEstimator/NFT_images"):
-  data = load_and_preprocess_single_image(f"valuationEstimator/NFT_images/{image}")
+for image in os.listdir("NFT_images"):
+  data = load_and_preprocess_single_image(f"NFT_images/{image}")
   prediction = model.predict(data)
   values.append(prediction)
 
@@ -120,9 +120,9 @@ for image in os.listdir("valuationEstimator/NFT_images"):
 # Define preset NFTs
 preset_nfts = [
     {
-        'name': 'Acorn Head',
-        'artist': 'DoVhichi',
-        'image_path': 'NFT_Images/download-1.png',
+        'name': 'Good Boy',
+        'artist': 'Woofles',
+        'image_path': 'NFT_Images/download-1.jpg',
         'price': values[0],
         'token_id': 1
     },
@@ -141,9 +141,9 @@ preset_nfts = [
         'token_id': 3
     },
     {
-        'name': 'Slob Monster',
-        'artist': 'Joe Joe',
-        'image_path': 'NFT_Images/download-4.png',
+        'name': 'Golden',
+        'artist': 'Dog Owner',
+        'image_path': 'NFT_Images/download-4.jpg',
         'price': values[3],
         'token_id': 4
     },
@@ -169,9 +169,9 @@ preset_nfts = [
         'token_id': 7
     },
     {
-        'name': 'Happy Car',
-        'artist': 'Henry Ford',
-        'image_path': 'NFT_Images/download-9.png',
+        'name': 'Stick Dog',
+        'artist': 'iDog',
+        'image_path': 'NFT_Images/download-8.jpg',
         'price': values[7],
         'token_id': 8
     },
@@ -195,7 +195,28 @@ preset_nfts = [
         'image_path': 'NFT_Images/download-11.png',
         'price': values[10],
         'token_id': 11
-        }]
+    },
+    {
+        'name': 'Slob Monster',
+        'artist': 'Joe Joe',
+        'image_path': 'NFT_Images/download-13.png',
+        'price': values[11],
+        'token_id': 12
+    },
+    {
+        'name': 'Happy Car',
+        'artist': 'Henry Ford',
+        'image_path': 'NFT_Images/download-14.png',
+        'price': values[12],
+        'token_id': 13
+    },
+    {
+        'name': 'Acorn Head',
+        'artist': 'DoVhichi',
+        'image_path': 'NFT_Images/download-15.png',
+        'price': values[13],
+        'token_id': 14
+    }]
 
 
 with st.sidebar:
