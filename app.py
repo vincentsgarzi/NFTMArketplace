@@ -166,7 +166,7 @@ preset_nfts = [
 
 
 with st.sidebar:
-    st.title('NFT Marketplace')
+    st.title('Purchase NFT')
 
     # Select user account
     user_address = st.selectbox("Select the account you wish to use.", options=w3.eth.accounts)
@@ -182,7 +182,7 @@ with st.sidebar:
     # Display NFTs in the cart and total cost
     st.title('Your Cart:')
 
-tab1, tab2 = st.tabs(['NFT Marketplace', 'BYO NFT'])
+tab1, tab2 = st.tabs(['Marketplace', 'Build Your Own NFT'])
 
 cart_placeholder = st.sidebar.empty()
 
@@ -195,22 +195,27 @@ with tab1:
 
     st.title('')
 
-col_count = 4
-row_count = (len(preset_nfts) // col_count) + 1
+    user_nfts = []
 
-for i in range(row_count):
-    cols = st.columns(col_count, gap='large')
-    for j in range(col_count):
-        index = i * col_count + j
-        if index < len(preset_nfts):
-            with cols[j]:
+    col_count = 4
+    row_count = (len(preset_nfts) // col_count) + 1
+
+    for i in range(row_count):
+        cols = st.columns(col_count, gap='large')
+        for j in range(col_count):
+            index = i * col_count + j
+            if index < len(preset_nfts):
                 nft = preset_nfts[index]
+            else:
+                break
+
+            with cols[j]:
                 image = Image.open(nft["image_path"])
                 st.image(image, caption=nft["name"], use_column_width=True)
                 st.write(f"Artist: {nft['artist']}")
                 st.write(f"Price: {nft['price']} ETH")
 
-                nft_id = preset_nfts[index]['token_id']
+                nft_id = nft['token_id']
                 button_key = f"Add to Cart {nft_id}"
                 added_to_cart = nft_id in cart
 
@@ -219,6 +224,7 @@ for i in range(row_count):
                 elif st.button("Add to Cart", key=button_key):
                     add_to_cart(nft_id, user_address, cart)
                     cart.append(nft_id)
+
 
 # Update the total cost in the sidebar
 total_cost = calculate_total_cost()
@@ -249,22 +255,22 @@ with tab2:
 
     file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"])
 
-    #if file is not None:
-        #image = Image.open(file)
-        #st.image(image, caption='Uploaded Image.', use_column_width=True)
-        #st.write("")
-        #st.write("Classifying...")
+    if file is not None:
+        image = Image.open(file)
+        st.image(image, caption='Uploaded Image.', use_column_width=True)
+        st.write("")
+        st.write("Classifying...")
 
         # Preprocess the uploaded image
-        #data = load_and_preprocess_single_image(file)
+        data = load_and_preprocess_single_image(file)
 
         # Make a prediction
-        #model = load_model('Vinny/my_model.h5')
-        #prediction = model.predict(data)
-        #prediction = prediction.item(0)*10
-        #st.write("The estimated value of your NFT is: %.2f Ether" % prediction)
-        #st.write("You may list your NFT for sale at +/- ten percent of the estimate")
-        #initial_appraisal_value = st.slider(label="Listing Price, in Ether", min_value=(prediction*.9), max_value=(prediction*1.1))
+        model = load_model('Vinny/my_model.h5')
+        prediction = model.predict(data)
+        prediction = prediction.item(0)*10
+        st.write("The estimated value of your NFT is: %.2f Ether" % prediction)
+        st.write("You may list your NFT for sale at +/- ten percent of the estimate")
+        initial_appraisal_value = st.slider(label="Listing Price, in Ether", min_value=(prediction*.9), max_value=(prediction*1.1))
 
     if st.button("Register Artwork"):
         artwork_ipfs_hash =  pin_artwork(artwork_name,file)
@@ -273,16 +279,23 @@ with tab2:
             address,
             artwork_name,
             artist_name,
-            #int(initial_appraisal_value),
+            initial_appraisal_value,
             artwork_uri
         ).transact({'from': address, 'gas': 1000000})
 
-        receipt=w3.eth.waitForTransactionReceipt(tx_hash)
+        receipt=w3.eth.wait_for_transaction_receipt(tx_hash)
         st.write("Transaction receipt")
         st.write(dict(receipt))
 
         st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
         st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
+
+        preset_nfts.append({
+            'name': artist_name,
+            'artist': artist_name,
+            'image_path': file.name,
+            'price': 2
+        })
 
     st.markdown("---")
 
