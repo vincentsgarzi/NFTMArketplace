@@ -101,12 +101,14 @@ def buy_nfts(cart, user_address):
 
         # Send the transaction
         tx_hash = w3.eth.send_transaction(transaction)
-        receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+        receipt = w3.eth.waitForTransactionReceipt(tx_hash)
+
+        st.sidebar.write("NFTs purchased successfully!")
 
         st.sidebar.write("Transaction receipt for NFTs:")
         st.sidebar.write(dict(receipt))
 
-        st.sidebar.write("NFTs purchased successfully!")
+
 
 model = load_model('Vinny/my_model.h5')
 values = []
@@ -123,98 +125,98 @@ preset_nfts = [
         'name': 'Good Boy',
         'artist': 'Woofles',
         'image_path': 'NFT_Images/download-1.jpg',
-        'price': values[0],
+        'price': f'{values[0]:.6f}',
         'token_id': 1
     },
     {
         'name': 'Heart Cat',
         'artist': 'Milton',
         'image_path': 'NFT_Images/download-2.png',
-        'price': values[1],
+        'price': f'{values[1]:.6f}',
         'token_id': 2
     },
     {
         'name': 'Pixel Pizza',
         'artist': 'Chef Roonie',
         'image_path': 'NFT_Images/download-3.png',
-        'price': values[2],
+        'price': f'{values[2]:.6f}',
         'token_id': 3
     },
     {
         'name': 'Golden',
         'artist': 'Dog Owner',
         'image_path': 'NFT_Images/download-4.jpg',
-        'price': values[3],
+        'price': f'{values[3]:.6f}',
         'token_id': 4
     },
     {
         'name': 'Ninja Turtle',
         'artist': 'MichaelAngelo',
         'image_path': 'NFT_Images/download-5.png',
-        'price': values[4],
+        'price': f'{values[4]:.6f}',
         'token_id': 5
     },
     {
         'name': 'Puppy Smile',
         'artist': 'Masashi Kishimoto',
         'image_path': 'NFT_Images/download-6.jpg',
-        'price': values[5],
+        'price': f'{values[5]:.6f}',
         'token_id': 6
     },
     {
         'name': 'Halo Wolf',
         'artist': 'Jason Jones',
         'image_path': 'NFT_Images/download-7.png',
-        'price': values[6],
+        'price': f'{values[6]:.6f}',
         'token_id': 7
     },
     {
         'name': 'Stick Dog',
         'artist': 'iDog',
         'image_path': 'NFT_Images/download-8.jpg',
-        'price': values[7],
+        'price': f'{values[7]:.6f}',
         'token_id': 8
     },
     {
         'name': 'Small Car',
         'artist': 'Eric Cadena',
         'image_path': 'NFT_Images/download-9.png',
-        'price': values[8],
+        'price': f'{values[8]:.6f}',
         'token_id': 9
     },
     {
         'name': 'TV Head',
         'artist': 'Philo Farnsworth',
         'image_path': 'NFT_Images/download-10.png',
-        'price': values[9],
+        'price': f'{values[9]:.6f}',
         'token_id': 10
     },
     {
         'name': 'Patty Man',
         'artist': 'The Burger King',
         'image_path': 'NFT_Images/download-11.png',
-        'price': values[10],
+        'price': f'{values[10]:.6f}',
         'token_id': 11
     },
     {
         'name': 'Rainbow Box',
         'artist': 'Clifrton',
         'image_path': 'NFT_Images/download-12.png',
-        'price': values[11],
+        'price': f'{values[11]:.6f}',
         'token_id': 12
     },
     {
         'name': 'Slob Monster',
         'artist': 'Joe Joe',
         'image_path': 'NFT_Images/download-13.png',
-        'price': values[12],
+        'price': f'{values[12]:.6f}',
         'token_id': 13
     },
     {
         'name': 'Happy Car',
         'artist': 'Henry Ford',
         'image_path': 'NFT_Images/download-14.png',
-        'price': values[13],
+        'price': f'{values[14]:.6f}',
         'token_id': 14
     }]
 
@@ -272,7 +274,7 @@ with tab2:
             artwork_uri
         ).transact({'from': address, 'gas': 1000000})
 
-        receipt=w3.eth.wait_for_transaction_receipt(tx_hash)
+        receipt=w3.eth.waitForTransactionReceipt(tx_hash)
         st.write("Transaction receipt")
         st.write(dict(receipt))
 
@@ -351,7 +353,7 @@ with tab1:
 
 # Update the total cost in the sidebar
 total_cost = calculate_total_cost(st.session_state['cart'])
-st.sidebar.subheader(f"Total Cost: **:blue[{total_cost:.2f} ETH]**")
+st.sidebar.subheader(f"Total Cost: **:blue[{total_cost:.6f} ETH]**")
 
 nft_names = []
 for nft in st.session_state['cart']:
@@ -373,6 +375,7 @@ if st.sidebar.button("Purchase"):
 
     # Initiates the purchase of the NFTS in the cart
     buy_nfts(st.session_state['cart'], user_address)
+    # st.balloons()
     st.session_state.clear()
 
 
