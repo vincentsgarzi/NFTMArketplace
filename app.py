@@ -5,8 +5,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
 from PIL import Image
-#from Vinny.app import load_and_preprocess_single_image
-#from keras.models import load_model
+from Vinny.app import load_and_preprocess_single_image
+from keras.models import load_model
 from Kunal.pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
 import uuid
 
@@ -57,6 +57,9 @@ def pin_artwork(artwork_name, artwork_file):
 
     return json_ipfs_hash
 
+if 'cart' not in st.session_state:
+    st.session_state['cart'] = []
+
 #
 def pin_appraisal_report(report_content):
     json_report = convert_data_to_json(report_content)
@@ -64,25 +67,46 @@ def pin_appraisal_report(report_content):
     return report_ipfs_hash
 
 
-#
-def add_to_cart(token_id, user_address, cart):
-    if token_id not in cart:
-        cart.append(token_id)
-        nft_name = preset_nfts[index]['name']
-        st.sidebar.write(f"You have added the **:blue[{nft_name}]** NFT to your cart.")
+# Function used to add the items the user wants into a cart
+def add_to_cart(nft):
+    st.session_state['cart'].append(nft)
+    st.sidebar.write(f"You have added the **:blue[{nft['name']}]** NFT to your cart.")
 
-#
+# Calculates the total cost of the items in the cart
+def calculate_total_cost(cart):
+    total_cost = sum(nft['price'] for nft in st.session_state['cart'])
+    return total_cost
+
+# Initiates a purchase with ganache with the items in the cart
 def buy_nfts(cart, user_address):
-    for token_id in cart:
-        # Get the price of the NFT based on the token_id
-        price = next(nft['price'] for nft in preset_nfts if nft['token_id'] == token_id)
-        tx_hash = contract.functions.purchaseArtwork(token_id).transact({'from': user_address, 'value': w3.toWei(price, 'ether')})
-        receipt = w3.eth.waitForTransactionReceipt(tx_hash)
-        st.sidebar.write("Transaction receipt for NFT", token_id)
+    total_cost = calculate_total_cost(cart)
+    balance = w3.eth.get_balance(user_address)
+
+    wei_per_ether = 10 ** 18
+    total_cost_wei = int(total_cost * wei_per_ether)
+
+    if balance < total_cost_wei:
+         st.sidebar.write("Insufficient balance. Please add funds to your account.")
+         return
+
+    else:
+        receiver_address = '0xD87fa28d30B2c1bDB140831fD2191aAFb3Bcb084'
+
+        # Prepare the transaction
+        transaction = {
+            'from': user_address,
+            'to': receiver_address,
+            'value': total_cost_wei
+        }
+
+        # Send the transaction
+        tx_hash = w3.eth.send_transaction(transaction)
+        receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+        st.sidebar.write("Transaction receipt for NFTs:")
         st.sidebar.write(dict(receipt))
-    cart.clear()
 
-
+        st.sidebar.write("NFTs purchased successfully!")
 
 # Define preset NFTs
 preset_nfts = [
@@ -171,73 +195,10 @@ with st.sidebar:
     # Select user account
     user_address = st.selectbox("Select the account you wish to use.", options=w3.eth.accounts)
 
-    # Cart
-    cart = []
-
-    # Function to calculate total cost
-    def calculate_total_cost():
-        total_cost = sum(nft['price'] for nft in preset_nfts if nft['token_id'] in cart)
-        return total_cost
-
     # Display NFTs in the cart and total cost
     st.title('Your Cart:')
 
 tab1, tab2 = st.tabs(['Marketplace', 'Build Your Own NFT'])
-
-cart_placeholder = st.sidebar.empty()
-
-
-with tab1:
-
-    st.title('NFT Marketplace')
-    with st.expander('Welcome to our NFT Marketplace!'):
-        st.write("Explore a diverse collection of unique and valuable NFTs created by talented artists and creators from around the world. Immerse yourself in a world of digital art, collectibles, and more. Browse through our curated selection of NFTs, each with its own distinctive style and story. Discover rare and one-of-a-kind pieces that resonate with your taste and passion. With a seamless buying experience, you can securely purchase your favorite NFTs using cryptocurrency.")   
-
-    st.title('')
-
-    user_nfts = []
-
-    col_count = 4
-    row_count = (len(preset_nfts) // col_count) + 1
-
-    for i in range(row_count):
-        cols = st.columns(col_count, gap='large')
-        for j in range(col_count):
-            index = i * col_count + j
-            if index < len(preset_nfts):
-                nft = preset_nfts[index]
-            else:
-                break
-
-            with cols[j]:
-                image = Image.open(nft["image_path"])
-                st.image(image, caption=nft["name"], use_column_width=True)
-                st.write(f"Artist: {nft['artist']}")
-                st.write(f"Price: {nft['price']} ETH")
-
-                nft_id = nft['token_id']
-                button_key = f"Add to Cart {nft_id}"
-                added_to_cart = nft_id in cart
-
-                if added_to_cart:
-                    st.text("Added to Cart")
-                elif st.button("Add to Cart", key=button_key):
-                    add_to_cart(nft_id, user_address, cart)
-                    cart.append(nft_id)
-
-
-# Update the total cost in the sidebar
-total_cost = calculate_total_cost()
-st.sidebar.write(f"Total Cost: {total_cost} ETH")
-
-st.sidebar.write(f'**Do you wish to purchase the selected NFT?**')
-
-if st.sidebar.button("Purchase"):
-    buy_nfts(cart, user_address)
-    st.sidebar.write("NFTs purchased successfully!")
-    cart.clear()
-
-
 
 with tab2:
     st.title("Art Registry Appraisal System")
@@ -245,9 +206,7 @@ with tab2:
     address = st.selectbox("Choose an account to get started.", options=accounts)
     st.markdown("---")
 
-    ################################################################################
     # Register New Artwork
-    ################################################################################
     st.markdown("## Register a New Artwork")
 
     artwork_name = st.text_input("Enter the name of the artwork.")
@@ -261,7 +220,7 @@ with tab2:
         st.write("")
         st.write("Classifying...")
 
-        # Preprocess the uploaded image
+         # Preprocess the uploaded image
         data = load_and_preprocess_single_image(file)
 
         # Make a prediction
@@ -290,11 +249,14 @@ with tab2:
         st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
         st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
 
+        token_id = 234
+
         preset_nfts.append({
-            'name': artist_name,
+            'name': artwork_name,
             'artist': artist_name,
-            'image_path': file.name,
-            'price': 2
+            'image_path': file,
+            'price': initial_appraisal_value,
+            'token_id': token_id
         })
 
     st.markdown("---")
@@ -313,3 +275,75 @@ with tab2:
         token_uri = contract.functions.tokenURI(token_id).call()
         st.write(f"The tokenURI is {token_uri}")
         st.image(file)
+
+with tab1:
+
+    st.title('NFT Marketplace')
+    with st.expander('Welcome to our NFT Marketplace!'):
+        st.write("Explore a diverse collection of unique and valuable NFTs created by talented artists and creators from around the world. Immerse yourself in a world of digital art, collectibles, and more. Browse through our curated selection of NFTs, each with its own distinctive style and story. Discover rare and one-of-a-kind pieces that resonate with your taste and passion. With a seamless buying experience, you can securely purchase your favorite NFTs using cryptocurrency.")   
+
+    st.title('')
+
+    dynamic_nfts = []
+
+    all_nfts = preset_nfts + dynamic_nfts  # Combine preset and dynamic NFTs
+
+    col_count = 4
+    row_count = (len(all_nfts) // col_count) + 1
+
+
+    # For loops to display the nessessary info on the NFT Marketplace
+    for i in range(row_count):
+        cols = st.columns(col_count, gap='large')
+        for j in range(col_count):
+            index = i * col_count + j
+            if index < len(all_nfts):
+                nft = all_nfts[index]
+            else:
+                break
+
+            with cols[j]:
+                image = Image.open(nft["image_path"])
+                st.image(image, caption=nft["name"], use_column_width=True)
+                st.write(f"Artist: {nft['artist']}")
+                st.write(f"Price: {nft['price']} ETH")
+
+                if "token_id" in preset_nfts[index]:
+                    nft_id = preset_nfts[index]['token_id']
+                    button_key = f"Add to Cart {nft_id}"
+                    added_to_cart = nft_id in st.session_state['cart']
+
+                    if added_to_cart:
+                        st.text("Added to Cart")
+                    elif st.button("Add to Cart", key=button_key):
+                        add_to_cart(nft)
+
+
+# Update the total cost in the sidebar
+total_cost = calculate_total_cost(st.session_state['cart'])
+st.sidebar.subheader(f"Total Cost: **:blue[{total_cost:.2f} ETH]**")
+
+nft_names = []
+for nft in st.session_state['cart']:
+    nft_names.append(nft["name"])
+
+ # Display the names of NFTs in the cart
+if nft_names:
+     st.sidebar.subheader("NFTs in Cart:")
+     for name in nft_names:
+         st.sidebar.markdown(f'**:blue[{name}]**')
+else:
+     st.sidebar.write("No NFTs in Cart")
+
+st.sidebar.markdown('---')
+
+st.sidebar.subheader('Initiate Puchase?')
+
+if st.sidebar.button("Purchase"):
+
+    # Initiates the purchase of the NFTS in the cart
+    buy_nfts(st.session_state['cart'], user_address)
+    st.session_state.clear()
+    
+
+
