@@ -108,83 +108,92 @@ def buy_nfts(cart, user_address):
 
         st.sidebar.write("NFTs purchased successfully!")
 
+model = load_model('Vinny/my_model.h5')
+values = []
+
+for image in os.listdir("valuationEstimator/NFT_images"):
+  data = load_and_preprocess_single_image(f"valuationEstimator/NFT_images/{image}")
+  prediction = model.predict(data)
+  values.append(prediction)
+
+
 # Define preset NFTs
 preset_nfts = [
     {
         'name': 'Acorn Head',
         'artist': 'DoVhichi',
         'image_path': 'NFT_Images/download-1.png',
-        'price': 3.4,
+        'price': values[0],
         'token_id': 1
     },
     {
         'name': 'Heart Cat',
         'artist': 'Milton',
         'image_path': 'NFT_Images/download-2.png',
-        'price': 2.0,
+        'price': values[1],
         'token_id': 2
     },
     {
         'name': 'Pixel Pizza',
         'artist': 'Chef Roonie',
         'image_path': 'NFT_Images/download-3.png',
-        'price': 8.2,
+        'price': values[2],
         'token_id': 3
     },
     {
         'name': 'Slob Monster',
         'artist': 'Joe Joe',
         'image_path': 'NFT_Images/download-4.png',
-        'price': 1.7,
+        'price': values[3],
         'token_id': 4
     },
     {
         'name': 'Ninja Turtle',
         'artist': 'MichaelAngelo',
         'image_path': 'NFT_Images/download-5.png',
-        'price': 5.3,
+        'price': values[4],
         'token_id': 5
     },
     {
         'name': 'Naruto',
         'artist': 'Masashi Kishimoto',
         'image_path': 'NFT_Images/download-6.png',
-        'price': 9.3,
+        'price': values[5],
         'token_id': 6
     },
     {
         'name': 'Halo Wolf',
         'artist': 'Jason Jones',
         'image_path': 'NFT_Images/download-7.png',
-        'price': 7.4,
+        'price': values[6],
         'token_id': 7
     },
     {
         'name': 'Happy Car',
         'artist': 'Henry Ford',
         'image_path': 'NFT_Images/download-9.png',
-        'price': 4.0,
+        'price': values[7],
         'token_id': 8
     },
     {
         'name': 'TV Head',
         'artist': 'Philo Farnsworth',
         'image_path': 'NFT_Images/download-10.png',
-        'price': 5.9,
+        'price': values[8],
         'token_id': 9
     },
     {
         'name': 'Rainbow Box',
         'artist': 'Clifrton',
         'image_path': 'NFT_Images/download-12.png',
-        'price': 4.7,
+        'price': values[9],
         'token_id': 10
     },
     {
         'name': 'Patty Man',
         'artist': 'The Burger King',
         'image_path': 'NFT_Images/download-11.png',
-        'price': 2.7,
+        'price': values[10],
         'token_id': 11
         }]
 
@@ -280,7 +289,7 @@ with tab1:
 
     st.title('NFT Marketplace')
     with st.expander('Welcome to our NFT Marketplace!'):
-        st.write("Explore a diverse collection of unique and valuable NFTs created by talented artists and creators from around the world. Immerse yourself in a world of digital art, collectibles, and more. Browse through our curated selection of NFTs, each with its own distinctive style and story. Discover rare and one-of-a-kind pieces that resonate with your taste and passion. With a seamless buying experience, you can securely purchase your favorite NFTs using cryptocurrency.")   
+        st.write("Explore a diverse collection of unique and valuable NFTs created by talented artists and creators from around the world. Immerse yourself in a world of digital art, collectibles, and more. Browse through our curated selection of NFTs, each with its own distinctive style and story. Discover rare and one-of-a-kind pieces that resonate with your taste and passion. With a seamless buying experience, you can securely purchase your favorite NFTs using cryptocurrency.")
 
     st.title('')
 
@@ -344,6 +353,6 @@ if st.sidebar.button("Purchase"):
     # Initiates the purchase of the NFTS in the cart
     buy_nfts(st.session_state['cart'], user_address)
     st.session_state.clear()
-    
+
 
 
