@@ -67,7 +67,9 @@ pip install web3
 
 The front end of the application was developed using the `Streamlit` library. The backend operates using Ganash and Pinata to perform transactions and uploading of images, respectively. Tensorflow is used to develop a neural network that analyzes the image uploaded by the user and estimates its value based on our specific criteria.
 
-![Demo Image](###add url here###)
+![Demo Image](./readme_images/readme1.png)
+
+![Demo Image](./readme_images/readme2.png)
 
 ## Limitations
 Due to time and processing power limitations, the neural network is certainly not perfect. With more of these resources, the network would be trained on a far larger set of images
