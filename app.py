@@ -157,7 +157,7 @@ preset_nfts = [
     {
         'name': 'Puppy Smile',
         'artist': 'Masashi Kishimoto',
-        'image_path': 'NFT_Images/download-6.jg',
+        'image_path': 'NFT_Images/download-6.jpg',
         'price': values[5],
         'token_id': 6
     },
