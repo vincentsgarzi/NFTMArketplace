@@ -84,7 +84,7 @@ Future application updates would include
 - Connection with real ETH wallets
 - Improved neural network
 
-# Project Presentation
+## Project Presentation
 
 https://docs.google.com/presentation/d/1kOokQ5wRKEBlIOMaqFgB842Jf6KniIOsa_nrDA0u_a4/edit?usp=sharing
 
